@@ -12,10 +12,12 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
   - react
-rules: { 
+rules: {
   "no-console": ["error", { allow: ["warn", "error"] }],
 "no-unused-expressions": "error",
-"curly": "error", 
+"curly": "error",
+"react/jsx-uses-react": 0,
+"react/react-in-jsx-scope": 0,
 # "import/order": [
 #   "error",
 #   {

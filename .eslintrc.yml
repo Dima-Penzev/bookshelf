@@ -12,6 +12,23 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
   - react
-rules: { "no-console": ["error", { allow: ["warn", "error"] }],
+rules: { 
+  "no-console": ["error", { allow: ["warn", "error"] }],
 "no-unused-expressions": "error",
-"curly": "error", }
+"curly": "error", 
+# "import/order": [
+#   "error",
+#   {
+#     "groups": [
+#       "index",
+#       "sibling",
+#       "parent",
+#       "internal",
+#       "external",
+#       "builtin",
+#       "object",
+#       "type"
+#     ]
+#   }
+# ]
+}

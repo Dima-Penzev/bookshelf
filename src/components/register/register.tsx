@@ -1,8 +1,8 @@
+import logo from "../../images/logo-book.png";
+import { IFormValues } from "../../types/types";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { IFormValues } from "../../types/types";
-import logo from "../../images/logo-book.png";
 import "./register.css";
 
 type Props = {

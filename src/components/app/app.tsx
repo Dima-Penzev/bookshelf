@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
 import "./app.css";
 import Register from "../register/register";
 import Login from "../login/login";
 import ProtectedRouteElement from "../protected-route/protected-route";
 import { useLocalStorage } from "../../hooks/use-local-storage";
 import { IFormValues } from "../../types/types";
+import React, { useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { nanoid } from "nanoid";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,7 +32,7 @@ function App() {
       setErrorMessage(`Пользователь с почтой - ${email} уже зарегистрирован.`);
     } else {
       try {
-        save("users", [{ email, password }, ...usersArr]);
+        save("users", [{ email, password, id: nanoid() }, ...usersArr]);
         handleLogin(email, password);
       } catch (error) {
         setErrorMessage("Ошибка при сохранении данных");
@@ -49,9 +50,14 @@ function App() {
       setErrorMessage("Ошибка при чтении данных");
     }
 
+    if (usersArr.length === 0) {
+      setErrorMessage("Неправильные почта или пароль");
+      return;
+    }
+
     usersArr.forEach((user: IFormValues) => {
       if (user.email !== email || user.password !== password) {
-        setErrorMessage("Неправильные логин или пароль");
+        setErrorMessage("Неправильные почта или пароль");
       } else {
         setLoggedIn(true);
         navigate("/", { replace: true });

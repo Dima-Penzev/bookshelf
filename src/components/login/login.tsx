@@ -13,7 +13,6 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
-  const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { load } = useLocalStorage();
   const navigate = useNavigate();
@@ -36,7 +35,6 @@ export default function Login() {
     const existedUser = checkUserByData(usersArr, email, password);
 
     if (existedUser) {
-      setLoggedIn(true);
       navigate("/", { replace: true });
     } else {
       setErrorMessage("Неправильные почта или пароль");

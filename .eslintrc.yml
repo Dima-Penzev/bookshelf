@@ -19,19 +19,19 @@ rules: {
 "curly": "error",
 "react/jsx-uses-react": 0,
 "react/react-in-jsx-scope": 0,
-"import/prefer-default-export": "off",
+# "import/prefer-default-export": "off",
 "import/order": [
   "error",
   {
     "groups": [
-      "index",
-      "sibling",
-      "parent",
-      "internal",
-      "external",
-      "builtin",
-      "object",
-      "type"
+        "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
     ]
   }
 ]

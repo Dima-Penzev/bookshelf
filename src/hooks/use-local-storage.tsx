@@ -1,7 +1,7 @@
-import { IFormValues } from "../types/types";
+import { IFormUserValues } from "../types/types";
 
 export const useLocalStorage = () => {
-  const save = (key: string, value: IFormValues[]) => {
+  const save = (key: string, value: IFormUserValues[]) => {
     const serializedState = JSON.stringify(value);
     localStorage.setItem(key, serializedState);
   };

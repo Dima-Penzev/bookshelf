@@ -1,32 +1,47 @@
-import logo from "../../images/logo-book.png";
-import { IFormValues } from "../../types/types";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { IFormUserValues } from "../../types/types";
+import { useLocalStorage } from "../../hooks/use-local-storage";
+import logo from "../../images/logo-book.png";
 import "../register/register.css";
+import { checkUserByData } from "../../utils/check-user-by-data";
 
-type Props = {
-  onLogin(email: string, password: string): void;
-  errorMessage: string | null;
-};
-
-export default function Login({ onLogin, errorMessage }: Props) {
+export default function Login() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isValid },
-  } = useForm<IFormValues>({ mode: "onChange" });
+  } = useForm<IFormUserValues>({ mode: "onChange" });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { load } = useLocalStorage();
+  const navigate = useNavigate();
 
-  const handleFormSubmit = ({ email, password }: IFormValues) => {
-    onLogin(email, password);
-  };
+  const handleFormSubmit = ({ email, password }: IFormUserValues) => {
+    setErrorMessage(null);
+    let usersArr;
 
-  useEffect(() => {
-    if (!errorMessage) {
-      reset();
+    try {
+      usersArr = load("users") ?? [];
+    } catch (error) {
+      setErrorMessage("Ошибка при чтении данных");
     }
-  }, [errorMessage]);
+
+    if (usersArr.length === 0) {
+      setErrorMessage("Неправильные почта или пароль");
+      return;
+    }
+
+    const existedUser = checkUserByData(usersArr, email, password);
+
+    if (existedUser) {
+      setLoggedIn(true);
+      navigate("/", { replace: true });
+    } else {
+      setErrorMessage("Неправильные почта или пароль");
+    }
+  };
 
   return (
     <div className="entry">

@@ -1,32 +1,46 @@
-import logo from "../../images/logo-book.png";
-import { IFormValues } from "../../types/types";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { nanoid } from "nanoid";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { IFormUserValues } from "../../types/types";
+import { useLocalStorage } from "../../hooks/use-local-storage";
+import { checkUserByEmail } from "../../utils/check-user-by-email";
+import logo from "../../images/logo-book.png";
 import "./register.css";
 
-type Props = {
-  onRegister(email: string, password: string): void;
-  errorMessage: string | null;
-};
-
-export default function Register({ onRegister, errorMessage }: Props) {
+export default function Register() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isValid },
-  } = useForm<IFormValues>({ mode: "onChange" });
+  } = useForm<IFormUserValues>({ mode: "onChange" });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { save, load } = useLocalStorage();
+  const navigate = useNavigate();
 
-  const handleFormSubmit = ({ email, password }: IFormValues) => {
-    onRegister(email, password);
-  };
+  const handleFormSubmit = ({ email, password }: IFormUserValues) => {
+    setErrorMessage(null);
+    let usersArr;
 
-  useEffect(() => {
-    if (!errorMessage) {
-      reset();
+    try {
+      usersArr = load("users") ?? [];
+    } catch (error) {
+      setErrorMessage("Ошибка при чтении данных");
     }
-  }, [errorMessage]);
+
+    const existedUser = checkUserByEmail(usersArr, email);
+
+    if (existedUser) {
+      setErrorMessage(`Пользователь с почтой - ${email} уже зарегистрирован.`);
+    } else {
+      try {
+        save("users", [{ email, password, id: nanoid() }, ...usersArr]);
+        navigate("/", { replace: true });
+      } catch (error) {
+        setErrorMessage("Ошибка при сохранении данных");
+      }
+    }
+  };
 
   return (
     <div className="entry">

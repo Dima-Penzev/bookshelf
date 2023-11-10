@@ -1,11 +1,23 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Register from "../register/register";
 import Login from "../login/login";
 import ProtectedRouteElement from "../protected-route/protected-route";
+import { useLocalStorage } from "../../hooks/use-local-storage";
 import "./app.css";
 
 function App() {
+  const navigate = useNavigate();
+  const { load } = useLocalStorage();
+  const currentUser = load("currentUser") ?? null;
+  const { loggedIn } = currentUser;
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/", { replace: true });
+    }
+  }, loggedIn);
+
   return (
     <div className="app">
       <Routes>
@@ -16,7 +28,7 @@ function App() {
           element={
             <ProtectedRouteElement
               element={<h1>bookshelf</h1>}
-              loggedIn={true}
+              loggedIn={loggedIn}
             />
           }
         />

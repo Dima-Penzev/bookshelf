@@ -1,10 +1,9 @@
 import { nanoid } from "nanoid";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { IFormUserValues } from "../../types/types";
-import { useLocalStorage } from "../../hooks/use-local-storage";
-import { checkUserByEmail } from "../../utils/check-user-by-email";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { registerUser } from "../../redux/operations";
 import logo from "../../images/logo-book.png";
 import "./register.css";
 
@@ -14,32 +13,11 @@ export default function Register() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { save, load } = useLocalStorage();
-  const navigate = useNavigate();
+  const errorMessage = useAppSelector((state) => state.users.error);
+  const dispatch = useAppDispatch();
 
   const handleFormSubmit = ({ email, password }: IFormUserValues) => {
-    setErrorMessage(null);
-    let usersArr;
-
-    try {
-      usersArr = load("users") ?? [];
-    } catch (error) {
-      setErrorMessage("Ошибка при чтении данных");
-    }
-
-    const existedUser = checkUserByEmail(usersArr, email);
-
-    if (existedUser) {
-      setErrorMessage(`Пользователь с почтой - ${email} уже зарегистрирован.`);
-    } else {
-      try {
-        save("users", [{ email, password, id: nanoid() }, ...usersArr]);
-        navigate("/", { replace: true });
-      } catch (error) {
-        setErrorMessage("Ошибка при сохранении данных");
-      }
-    }
+    dispatch(registerUser({ email, password, id: nanoid() }));
   };
 
   return (

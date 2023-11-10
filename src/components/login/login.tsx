@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
-import { useLocalStorage } from "../../hooks/use-local-storage";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { loginUser } from "../../redux/operations";
 import logo from "../../images/logo-book.png";
 import "../register/register.css";
-import { checkUserByData } from "../../utils/check-user-by-data";
 
 export default function Login() {
   const {
@@ -13,32 +12,12 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { load } = useLocalStorage();
-  const navigate = useNavigate();
+  const errorMessage = useAppSelector((state) => state.currentUser.error);
+  const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
 
-  const handleFormSubmit = ({ email, password }: IFormUserValues) => {
-    setErrorMessage(null);
-    let usersArr;
-
-    try {
-      usersArr = load("users") ?? [];
-    } catch (error) {
-      setErrorMessage("Ошибка при чтении данных");
-    }
-
-    if (usersArr.length === 0) {
-      setErrorMessage("Неправильные почта или пароль");
-      return;
-    }
-
-    const existedUser = checkUserByData(usersArr, email, password);
-
-    if (existedUser) {
-      navigate("/", { replace: true });
-    } else {
-      setErrorMessage("Неправильные почта или пароль");
-    }
+  const handleFormSubmit = (userData: IFormUserValues) => {
+    dispatch(loginUser(userData));
   };
 
   return (

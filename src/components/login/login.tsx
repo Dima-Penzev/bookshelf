@@ -14,7 +14,6 @@ export default function Login() {
   } = useForm<IFormUserValues>({ mode: "onChange" });
   const errorMessage = useAppSelector((state) => state.currentUser.error);
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
 
   const handleFormSubmit = (userData: IFormUserValues) => {
     dispatch(loginUser(userData));

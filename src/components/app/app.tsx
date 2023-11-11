@@ -3,20 +3,19 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Register from "../register/register";
 import Login from "../login/login";
 import ProtectedRouteElement from "../protected-route/protected-route";
-import { useLocalStorage } from "../../hooks/use-local-storage";
+import { useAppSelector } from "../../hooks/redux-hooks";
 import "./app.css";
+import Main from "../main/main";
 
 function App() {
   const navigate = useNavigate();
-  const { load } = useLocalStorage();
-  const currentUser = load("currentUser") ?? null;
-  const { loggedIn } = currentUser;
+  const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
 
   useEffect(() => {
     if (loggedIn) {
       navigate("/", { replace: true });
     }
-  }, loggedIn);
+  }, [loggedIn]);
 
   return (
     <div className="app">
@@ -26,10 +25,7 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRouteElement
-              element={<h1>bookshelf</h1>}
-              loggedIn={loggedIn}
-            />
+            <ProtectedRouteElement element={<Main />} loggedIn={loggedIn} />
           }
         />
       </Routes>

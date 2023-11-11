@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IFormUserValues } from "../types/types";
+import { IFormUserValues, IBook, IResponseBook } from "../types/types";
 import { useLocalStorage } from "../hooks/use-local-storage";
 const { save, load } = useLocalStorage();
+const BASE_URL = "https://www.googleapis.com/books/v1/volumes?projection=lite";
 
 export const registerUser = createAsyncThunk<
   IFormUserValues[],
@@ -66,4 +67,40 @@ export const loginUser = createAsyncThunk<
   return existedUser
     ? existedUser
     : thunkAPI.rejectWithValue("Неправильные почта или пароль");
+});
+
+export const getBooks = createAsyncThunk<
+  IBook[],
+  null,
+  {
+    rejectValue: string;
+  }
+>("books/getBooks", async (_, thunkAPI) => {
+  try {
+    const response = await fetch(`${BASE_URL}&maxResults=20&q=""`, {
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const books = await response.json();
+
+      const liteBooksArr = await books.items.map((item: IResponseBook) => ({
+        id: item.id,
+        title: item.volumeInfo.title,
+        authors: item.volumeInfo.authors,
+        description: item.volumeInfo.description,
+        publishedDate: item.volumeInfo.publishedDate,
+        imageLink: item.volumeInfo.imageLinks?.thumbnail,
+        previewLink: item.volumeInfo.previewLink,
+      }));
+
+      return liteBooksArr;
+    } else {
+      return thunkAPI.rejectWithValue("Ошибка при загрузке данных");
+    }
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Ошибка при загрузке данных");
+  }
 });

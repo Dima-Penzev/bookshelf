@@ -4,3 +4,27 @@ export interface IFormUserValues {
   id: string;
   loggedIn?: boolean;
 }
+
+export interface IResponseBook {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors: string[];
+    description: string;
+    publishedDate: string;
+    imageLinks: {
+      thumbnail: string | undefined;
+    };
+    previewLink: string;
+  };
+}
+
+export interface IBook {
+  id: string;
+  title: string;
+  authors: string[];
+  description: string;
+  publishedDate: string;
+  imageLink: string | undefined;
+  previewLink: string;
+}

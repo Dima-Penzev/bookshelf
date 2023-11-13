@@ -9,6 +9,12 @@
   box-sizing: border-box;
 }
 
+.header__logo {
+  margin-right: auto;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
 .header__nav {
   display: flex;
   align-items: center;

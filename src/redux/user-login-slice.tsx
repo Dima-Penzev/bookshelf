@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IFormUserValues } from "../types/types";
 import { useLocalStorage } from "../hooks/use-local-storage";
-import { loginUser } from "./operations";
+import { loginUser, logoutUser } from "./operations";
 const { save } = useLocalStorage();
 
 interface IUsersState {
@@ -40,6 +40,13 @@ const handleLoginFulfilled = (
   }
 };
 
+const handleLogoutUserFulfilled = (state: IUsersState) => {
+  state.user = null;
+  state.error = null;
+  state.isLoading = false;
+  state.loggedIn = false;
+};
+
 const initialState: IUsersState = {
   user: null,
   error: null,
@@ -55,7 +62,10 @@ const userLoginSlice = createSlice({
     builder
       .addCase(loginUser.pending, handlePending)
       .addCase(loginUser.fulfilled, handleLoginFulfilled)
-      .addCase(loginUser.rejected, handleRejected),
+      .addCase(loginUser.rejected, handleRejected)
+      .addCase(logoutUser.pending, handlePending)
+      .addCase(logoutUser.fulfilled, handleLogoutUserFulfilled)
+      .addCase(logoutUser.rejected, handleRejected),
 });
 
 export const userLoginReducer = userLoginSlice.reducer;

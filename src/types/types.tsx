@@ -1,7 +1,7 @@
 export interface IFormUserValues {
   email: string;
   password: string;
-  id: string;
+  id?: string;
   loggedIn?: boolean;
 }
 
@@ -17,14 +17,4 @@ export interface IResponseBook {
     };
     previewLink: string;
   };
-}
-
-export interface IBook {
-  id: string;
-  title: string;
-  authors: string[];
-  description: string;
-  publishedDate: string;
-  imageLink: string | undefined;
-  previewLink: string;
 }

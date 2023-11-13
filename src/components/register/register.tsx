@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { registerUser } from "../../redux/operations";
+import { loginUser, registerUser } from "../../redux/operations";
 import logo from "../../images/logo-book.png";
 import "./register.css";
 
@@ -16,8 +16,9 @@ export default function Register() {
   const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = ({ email, password }: IFormUserValues) => {
-    dispatch(registerUser({ email, password, id: nanoid() }));
+  const handleFormSubmit = async ({ email, password }: IFormUserValues) => {
+    await dispatch(registerUser({ email, password, id: nanoid() }));
+    await dispatch(loginUser({ email, password }));
   };
 
   return (

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IFormUserValues } from "../types/types";
-import { useLocalStorage } from "../hooks/use-local-storage";
-const { save, load } = useLocalStorage();
+import { nanoid } from "nanoid";
+import { IFormUserValues, ILoggedInUser } from "../types/types";
+import { applyLocalStorage } from "../hooks/use-local-storage";
+const { save, load } = applyLocalStorage();
 
 export const registerUser = createAsyncThunk<
   IFormUserValues[],
@@ -10,7 +11,8 @@ export const registerUser = createAsyncThunk<
     rejectValue: string;
   }
 >("user/registerUser", async (user, thunkAPI) => {
-  const { email } = user;
+  const userData = { ...user, id: nanoid() };
+  const { email } = userData;
   let usersArr;
 
   try {
@@ -29,7 +31,7 @@ export const registerUser = createAsyncThunk<
     );
   } else {
     try {
-      const updatedUsersArr = [user, ...usersArr];
+      const updatedUsersArr = [userData, ...usersArr];
       save("users", updatedUsersArr);
       return updatedUsersArr;
     } catch (error) {
@@ -39,7 +41,7 @@ export const registerUser = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  IFormUserValues,
+  ILoggedInUser,
   IFormUserValues,
   {
     rejectValue: string;
@@ -63,9 +65,23 @@ export const loginUser = createAsyncThunk<
       user.email === email && user.password === password
   );
 
-  return existedUser
-    ? existedUser
-    : thunkAPI.rejectWithValue("Неправильные почта или пароль");
+  if (existedUser) {
+    const loggedInUser = {
+      user: existedUser,
+      loggedIn: true,
+      error: null,
+      isLoading: false,
+    };
+
+    try {
+      save("currentUser", loggedInUser);
+      return loggedInUser;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Ошибка при сохранении данных.");
+    }
+  } else {
+    return thunkAPI.rejectWithValue("Неправильные почта или пароль");
+  }
 });
 
 export const logoutUser = createAsyncThunk<

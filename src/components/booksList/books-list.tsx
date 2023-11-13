@@ -1,7 +1,7 @@
 import "./books-list.css";
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element[];
 };
 
 function BooksList({ children }: Props) {

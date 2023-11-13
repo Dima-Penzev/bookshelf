@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
@@ -16,9 +15,9 @@ export default function Register() {
   const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = async ({ email, password }: IFormUserValues) => {
-    await dispatch(registerUser({ email, password, id: nanoid() }));
-    await dispatch(loginUser({ email, password }));
+  const handleFormSubmit = async (userData: IFormUserValues) => {
+    await dispatch(registerUser(userData));
+    await dispatch(loginUser(userData));
   };
 
   return (

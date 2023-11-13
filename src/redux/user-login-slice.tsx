@@ -1,22 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IFormUserValues } from "../types/types";
-import { useLocalStorage } from "../hooks/use-local-storage";
+import { ILoggedInUser } from "../types/types";
 import { loginUser, logoutUser } from "./operations";
-const { save } = useLocalStorage();
 
-interface IUsersState {
-  user: IFormUserValues | null | undefined;
-  error: string | null | undefined;
-  isLoading: boolean;
-  loggedIn: boolean;
-}
-
-const handlePending = (state: IUsersState) => {
+const handlePending = (state: ILoggedInUser) => {
   state.isLoading = true;
 };
 
 const handleRejected = (
-  state: IUsersState,
+  state: ILoggedInUser,
   action: PayloadAction<string | undefined>
 ) => {
   state.error = action.payload;
@@ -25,29 +16,23 @@ const handleRejected = (
 };
 
 const handleLoginFulfilled = (
-  state: IUsersState,
-  action: PayloadAction<IFormUserValues>
+  state: ILoggedInUser,
+  action: PayloadAction<ILoggedInUser>
 ) => {
-  state.user = action.payload;
-  state.isLoading = false;
-  state.loggedIn = true;
-  state.error = null;
-
-  try {
-    save("currentUser", { ...state.user, loggedIn: state.loggedIn });
-  } catch (error) {
-    state.error = "Ошибка при сохранении данных.";
-  }
+  state.user = action.payload.user;
+  state.loggedIn = action.payload.loggedIn;
+  state.isLoading = action.payload.isLoading;
+  state.error = action.payload.error;
 };
 
-const handleLogoutUserFulfilled = (state: IUsersState) => {
+const handleLogoutUserFulfilled = (state: ILoggedInUser) => {
   state.user = null;
   state.error = null;
   state.isLoading = false;
   state.loggedIn = false;
 };
 
-const initialState: IUsersState = {
+const initialState: ILoggedInUser = {
   user: null,
   error: null,
   isLoading: false,

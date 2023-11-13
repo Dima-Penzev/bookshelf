@@ -1,4 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IResponseBook } from "../types/types";
+
+interface IResponse {
+  items: IResponseBook[];
+}
 
 export const booksApi = createApi({
   reducerPath: "books",
@@ -8,9 +13,16 @@ export const booksApi = createApi({
   endpoints: (build) => ({
     getBooks: build.query({
       query: (bookQuery) =>
-        bookQuery
-          ? `volumes?projection=lite&maxResults=20&q=${bookQuery}`
-          : `volumes?projection=lite&maxResults=20&q=""`,
+        `volumes?projection=lite&maxResults=20&q=${
+          bookQuery ? bookQuery : "%22%22"
+        }`,
+      transformResponse: ({ items }: IResponse) =>
+        items.map((book) => ({
+          id: book.id,
+          title: book.volumeInfo.title,
+          authors: book.volumeInfo.authors,
+          imageLink: book.volumeInfo.imageLinks?.thumbnail,
+        })),
     }),
   }),
 });

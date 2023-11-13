@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { useLocalStorage } from "../hooks/use-local-storage";
+import { applyLocalStorage } from "../hooks/use-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
 import { booksApi } from "./books-api";
-const { load } = useLocalStorage();
+const { load } = applyLocalStorage();
 
 const rootReducers = combineReducers({
   users: userRegisterReducer,

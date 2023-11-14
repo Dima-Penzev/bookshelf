@@ -1,0 +1,70 @@
+.book {
+  border-radius: 5px;
+  background-color: rgb(234, 243, 240);
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.book__links-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.book__link {
+  display: block;
+  text-decoration: none;
+  max-width: fit-content;
+  color: #fff;
+  background-color: #27ae60;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.book__link:hover {
+  transform: scale(1.03);
+}
+
+.book__thumb {
+  flex-grow: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.book__cover {
+  display: block;
+  min-width: 150px;
+}
+
+.book__categorie {
+  margin-top: 0;
+  text-decoration: underline;
+  color: rgb(131, 132, 133);
+}
+
+.book__title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-top: 0;
+  font-size: 18px;
+  color: #000;
+}
+
+.book__author {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: rgb(131, 132, 133);
+}

@@ -4,6 +4,8 @@ import BooksList from "../booksList/books-list";
 import BookItem from "../book-item/book-item";
 import { useGetBooksQuery } from "../../redux/books-api";
 import { Loader } from "../loader/loader";
+import { Error } from "../error/error";
+import { Footer } from "../footer/footer";
 
 export default function Main() {
   const { data = [], isLoading, isError } = useGetBooksQuery(null);
@@ -24,8 +26,9 @@ export default function Main() {
           ))}
         </BooksList>
         {isLoading && <Loader />}
-        {isError && <h2>Ошибка при загрузке данных!</h2>}
+        {isError && <Error text="Ошибка при загрузке данных" />}
       </main>
+      <Footer />
     </div>
   );
 }

@@ -5,7 +5,11 @@ type Props = {
 };
 
 function BooksList({ children }: Props) {
-  return <ul className="books-list">{children}</ul>;
+  return (
+    <>
+      <ul className="books-list">{children}</ul>
+    </>
+  );
 }
 
 export default BooksList;

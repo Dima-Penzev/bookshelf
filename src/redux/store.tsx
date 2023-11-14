@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { applyLocalStorage } from "../hooks/use-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
+import { favoriteBooksReducer } from "./favorite-books-slice";
 import { booksApi } from "./books-api";
 const { load } = applyLocalStorage();
 
@@ -9,6 +10,7 @@ const rootReducers = combineReducers({
   users: userRegisterReducer,
   currentUser: userLoginReducer,
   [booksApi.reducerPath]: booksApi.reducer,
+  favoriteBooks: favoriteBooksReducer,
 });
 
 const preloadedState = {
@@ -17,7 +19,13 @@ const preloadedState = {
     isLoading: false,
     error: null,
   },
-  currentUser: load("currentUser") ?? {},
+  currentUser: {
+    user: load("currentUser")?.user || null,
+    error: null,
+    isLoading: false,
+    loggedIn: load("currentUser")?.loggedIn || false,
+  },
+  favoriteBooks: { value: load("favoriteBooks") ?? [] },
 };
 
 export const store = configureStore({

@@ -2,27 +2,26 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { loginUser } from "../../redux/operations";
-import logo from "../../images/logo-book.png";
-import "../register/register.css";
+import { loginUser, registerUser } from "../../redux/operations";
+import "./register.css";
 
-export default function Login() {
+export default function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
-  const errorMessage = useAppSelector((state) => state.currentUser.error);
+  const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = (userData: IFormUserValues) => {
-    dispatch(loginUser(userData));
+  const handleFormSubmit = async (userData: IFormUserValues) => {
+    await dispatch(registerUser(userData));
+    await dispatch(loginUser(userData));
   };
 
   return (
     <div className="entry">
-      <img className="entry__logo" src={logo} alt="логотип" />
-      <h2 className="entry__title">Рады видеть!</h2>
+      <h2 className="entry__title">Добро пожаловать!</h2>
       <form
         className="entry__form"
         name="profile-data"
@@ -72,14 +71,14 @@ export default function Login() {
             className={`entry__button ${!isValid && "entry__button_disabled"}`}
             disabled={!isValid}
           >
-            Войти
+            Зарегистрироваться
           </button>
         </div>
       </form>
       <p className="entry__text">
-        Ещё не зарегистрированы?{" "}
-        <Link className="entry__link" to="/signup">
-          Регистрация
+        Уже зарегестрированы?{" "}
+        <Link className="entry__link" to="/signin">
+          Войти
         </Link>
       </p>
     </div>

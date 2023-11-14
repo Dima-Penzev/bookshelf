@@ -29,6 +29,15 @@
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.book__favorite {
+  margin: 0;
+  border-bottom: 1px solid #000;
+}
+
+.book__link_added {
+  background-color: #ae4627;
+}
+
 .book__link:hover {
   transform: scale(1.03);
 }

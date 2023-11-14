@@ -1,25 +1,12 @@
-import React, { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Register from "../register/register";
-import Login from "../login/login";
-import ProtectedRouteElement from "../protected-route/protected-route";
-import { useAppSelector } from "../../hooks/redux-hooks";
+import React from "react";
 import "./app.css";
 import Main from "../main/main";
 
 function App() {
-  const navigate = useNavigate();
-  const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
-
-  useEffect(() => {
-    if (loggedIn) {
-      navigate("/", { replace: true });
-    }
-  }, [loggedIn]);
-
   return (
     <div className="app">
-      <Routes>
+      <Main />
+      {/* <Routes>
         <Route path="/signup" element={<Register />} />
         <Route path="/signin" element={<Login />} />
         <Route
@@ -28,7 +15,16 @@ function App() {
             <ProtectedRouteElement element={<Main />} loggedIn={loggedIn} />
           }
         />
-      </Routes>
+        <Route
+          path="/search"
+          element={
+            <ProtectedRouteElement
+              element={<h2>search</h2>}
+              loggedIn={loggedIn}
+            />
+          }
+        />
+      </Routes> */}
     </div>
   );
 }

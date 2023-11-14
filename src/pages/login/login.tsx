@@ -1,29 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { loginUser, registerUser } from "../../redux/operations";
-import logo from "../../images/logo-book.png";
-import "./register.css";
+import { loginUser } from "../../redux/operations";
+import "../../pages/register/register.css";
 
-export default function Register() {
+export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
-  const errorMessage = useAppSelector((state) => state.users.error);
+  const errorMessage = useAppSelector((state) => state.currentUser.error);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleFormSubmit = async (userData: IFormUserValues) => {
-    await dispatch(registerUser(userData));
-    await dispatch(loginUser(userData));
+  const handleFormSubmit = (userData: IFormUserValues) => {
+    dispatch(loginUser(userData));
+    navigate("/", { replace: true });
   };
 
   return (
     <div className="entry">
-      <img className="entry__logo" src={logo} alt="логотип" />
-      <h2 className="entry__title">Добро пожаловать!</h2>
+      <h2 className="entry__title">Рады видеть!</h2>
       <form
         className="entry__form"
         name="profile-data"
@@ -73,14 +72,14 @@ export default function Register() {
             className={`entry__button ${!isValid && "entry__button_disabled"}`}
             disabled={!isValid}
           >
-            Зарегистрироваться
+            Войти
           </button>
         </div>
       </form>
       <p className="entry__text">
-        Уже зарегестрированы?{" "}
-        <Link className="entry__link" to="/signin">
-          Войти
+        Ещё не зарегистрированы?{" "}
+        <Link className="entry__link" to="/signup">
+          Регистрация
         </Link>
       </p>
     </div>

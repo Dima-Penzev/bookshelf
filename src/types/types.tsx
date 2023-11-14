@@ -22,3 +22,10 @@ export interface IResponseBook {
     };
   };
 }
+
+export interface IBook {
+  id: string;
+  title: string;
+  authors: string[];
+  cover: string | undefined;
+}

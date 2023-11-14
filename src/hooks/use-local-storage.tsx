@@ -1,7 +1,10 @@
-import { IFormUserValues, ILoggedInUser } from "../types/types";
+import { IBook, IFormUserValues, ILoggedInUser } from "../types/types";
 
 export const applyLocalStorage = () => {
-  const save = (key: string, value: IFormUserValues[] | ILoggedInUser) => {
+  const save = (
+    key: string,
+    value: IFormUserValues[] | ILoggedInUser | IBook[]
+  ) => {
     const serializedState = JSON.stringify(value);
     localStorage.setItem(key, serializedState);
   };

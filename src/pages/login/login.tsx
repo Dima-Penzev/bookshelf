@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
@@ -13,11 +13,9 @@ export default function Login() {
   } = useForm<IFormUserValues>({ mode: "onChange" });
   const errorMessage = useAppSelector((state) => state.currentUser.error);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleFormSubmit = (userData: IFormUserValues) => {
     dispatch(loginUser(userData));
-    navigate("/", { replace: true });
   };
 
   return (

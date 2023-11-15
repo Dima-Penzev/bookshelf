@@ -1,6 +1,6 @@
 import "./main.css";
-// import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Header from "../header/header";
 import { Footer } from "../footer/footer";
 import Register from "../../pages/register/register";
@@ -12,7 +12,12 @@ import ProtectedRouteElement from "../protected-route/protected-route";
 import { FavoritesPage } from "../../pages/favorites-page/favorites-page";
 
 export default function Main() {
+  const navigate = useNavigate();
   const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
+
+  useEffect(() => {
+    navigate("/", { replace: true });
+  }, [loggedIn]);
 
   return (
     <div className="main">

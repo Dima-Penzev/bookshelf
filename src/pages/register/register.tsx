@@ -14,9 +14,9 @@ export default function Register() {
   const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = async (userData: IFormUserValues) => {
-    await dispatch(registerUser(userData));
-    await dispatch(loginUser(userData));
+  const handleFormSubmit = (userData: IFormUserValues) => {
+    dispatch(registerUser(userData));
+    dispatch(loginUser(userData));
   };
 
   return (

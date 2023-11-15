@@ -1,10 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { logoutUser } from "../../redux/operations";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import logoBook from "../../images/logo-book.png";
 import "./header.css";
 
 export default function Header() {
+  const { pathname } = useLocation();
   const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
   const userEmail = useAppSelector((state) => state.currentUser.user?.email);
   const dispatch = useAppDispatch();
@@ -44,13 +45,19 @@ export default function Header() {
         >
           История
         </NavLink>
-        {loggedIn ? (
+        {pathname !== "/signin" && !loggedIn && (
+          <Link className="header__link" to="/signin">
+            Войти
+          </Link>
+        )}
+        {loggedIn && (
           <Link className="header__link" onClick={handleSignOut} to="">
             Выйти
           </Link>
-        ) : (
-          <Link className="header__link" to="/signin">
-            Войти
+        )}
+        {pathname === "/signin" && !loggedIn && (
+          <Link className="header__link" to="/signup">
+            Регистрация
           </Link>
         )}
       </nav>

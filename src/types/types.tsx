@@ -2,7 +2,6 @@ export interface IFormUserValues {
   email: string;
   password: string;
   id?: string;
-  loggedIn?: boolean;
 }
 
 export interface ILoggedInUser {
@@ -28,4 +27,5 @@ export interface IBook {
   title: string;
   authors: string[];
   cover: string | undefined;
+  usersId?: (string | undefined)[];
 }

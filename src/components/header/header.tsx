@@ -1,4 +1,5 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { logoutUser } from "../../redux/operations";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import logoBook from "../../images/logo-book.png";
@@ -12,6 +13,7 @@ export default function Header() {
 
   function handleSignOut() {
     dispatch(logoutUser(null));
+    toast.warn("Вы вышли из вашего аккаунта");
   }
 
   return (

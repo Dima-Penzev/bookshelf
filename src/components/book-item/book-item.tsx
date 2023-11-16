@@ -1,5 +1,6 @@
 import "./book-item.css";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { IBook } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { addBooksArray } from "../../redux/favorite-books-slice";
@@ -45,6 +46,7 @@ function BookItem(book: IBook): JSX.Element {
         ]);
       }
     } else {
+      toast.info("Необходимо войти или зарегистрироваться");
       return;
     }
   }

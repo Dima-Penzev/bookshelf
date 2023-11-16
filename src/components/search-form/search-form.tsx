@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./search-form.css";
 
 export default function SearchForm() {
@@ -15,11 +16,12 @@ export default function SearchForm() {
     e.preventDefault();
 
     if (formBook === "") {
+      toast.info("Введите название книги");
       return;
-    } else {
-      const normalizedValue = formBook.toLowerCase().trim();
-      navigate(`/search/${normalizedValue}`, { replace: true });
     }
+
+    const normalizedValue = formBook.toLowerCase().trim();
+    navigate(`/search/${normalizedValue}`, { replace: true });
   };
 
   return (

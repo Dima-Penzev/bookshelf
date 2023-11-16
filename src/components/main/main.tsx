@@ -10,6 +10,7 @@ import { useAppSelector } from "../../hooks/redux-hooks";
 import SearchPage from "../../pages/search-page/search-page";
 import ProtectedRouteElement from "../protected-route/protected-route";
 import { FavoritesPage } from "../../pages/favorites-page/favorites-page";
+import { Notification } from "../notification/notification";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export default function Main() {
             }
           />
         </Routes>
+        <Notification />
       </main>
       <Footer />
     </div>

@@ -1,16 +1,19 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { logoutUser } from "../../redux/operations";
-import { useAppDispatch } from "../../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import logoBook from "../../images/logo-book.png";
 import "./header.css";
 
 export default function Header() {
+  const { pathname } = useLocation();
+  const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
+  const userEmail = useAppSelector((state) => state.currentUser.user?.email);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   function handleSignOut() {
     dispatch(logoutUser(null));
-    navigate("/signin", { replace: true });
+    toast.warn("Вы вышли из вашего аккаунта");
   }
 
   return (
@@ -18,6 +21,7 @@ export default function Header() {
       <Link className="header__logo" to="/">
         <img src={logoBook} alt="логотип" height={40} />
       </Link>
+      {loggedIn && <p>{userEmail}</p>}
       <nav className="header__nav">
         <NavLink
           className={({ isActive }) =>
@@ -33,7 +37,7 @@ export default function Header() {
           }
           to="/favorites"
         >
-          Сохраненные
+          Избранное
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -43,9 +47,21 @@ export default function Header() {
         >
           История
         </NavLink>
-        <Link className="header__link" onClick={handleSignOut} to="">
-          Выйти
-        </Link>
+        {pathname !== "/signin" && !loggedIn && (
+          <Link className="header__link" to="/signin">
+            Войти
+          </Link>
+        )}
+        {loggedIn && (
+          <Link className="header__link" onClick={handleSignOut} to="">
+            Выйти
+          </Link>
+        )}
+        {pathname === "/signin" && !loggedIn && (
+          <Link className="header__link" to="/signup">
+            Регистрация
+          </Link>
+        )}
       </nav>
     </header>
   );

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { loginUser, registerUser } from "../../redux/operations";
-import logo from "../../images/logo-book.png";
 import "./register.css";
 
 export default function Register() {
@@ -15,14 +14,13 @@ export default function Register() {
   const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = async (userData: IFormUserValues) => {
-    await dispatch(registerUser(userData));
-    await dispatch(loginUser(userData));
+  const handleFormSubmit = (userData: IFormUserValues) => {
+    dispatch(registerUser(userData));
+    dispatch(loginUser(userData));
   };
 
   return (
     <div className="entry">
-      <img className="entry__logo" src={logo} alt="логотип" />
       <h2 className="entry__title">Добро пожаловать!</h2>
       <form
         className="entry__form"

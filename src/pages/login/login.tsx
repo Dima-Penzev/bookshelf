@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { loginUser } from "../../redux/operations";
-import logo from "../../images/logo-book.png";
-import "../register/register.css";
+import "../../pages/register/register.css";
 
 export default function Login() {
   const {
@@ -21,7 +20,6 @@ export default function Login() {
 
   return (
     <div className="entry">
-      <img className="entry__logo" src={logo} alt="логотип" />
       <h2 className="entry__title">Рады видеть!</h2>
       <form
         className="entry__form"

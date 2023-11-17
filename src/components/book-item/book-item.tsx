@@ -3,10 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IBook } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { addBooksArray } from "../../redux/favorite-books-slice";
-import { applyLocalStorage } from "../../hooks/use-local-storage";
+import { addBook, removeBook } from "../../redux/favorite-books-slice";
 import defaultPoster from "../../images/opened-book.jpg";
-const { save } = applyLocalStorage();
 
 function BookItem(book: IBook): JSX.Element {
   const { id, cover, title, authors } = book;
@@ -24,27 +22,7 @@ function BookItem(book: IBook): JSX.Element {
 
   function addFavoriteBook(): void {
     if (userLoggedIn) {
-      const updatedFavoriteBook = {
-        ...book,
-        usersId: [userId, ...usersIdArr],
-      };
-
-      if (!favoriteBook) {
-        dispatch(addBooksArray([updatedFavoriteBook, ...favoriteBooksArr]));
-        save("favoriteBooks", [updatedFavoriteBook, ...favoriteBooksArr]);
-      } else {
-        const filteredFavoriteBooksArr = favoriteBooksArr.filter(
-          (book) => book.id !== id
-        );
-
-        dispatch(
-          addBooksArray([updatedFavoriteBook, ...filteredFavoriteBooksArr])
-        );
-        save("favoriteBooks", [
-          updatedFavoriteBook,
-          ...filteredFavoriteBooksArr,
-        ]);
-      }
+      dispatch(addBook({ ...book, usersId: [userId] }));
     } else {
       toast.info("Необходимо войти или зарегистрироваться");
       return;
@@ -52,22 +30,7 @@ function BookItem(book: IBook): JSX.Element {
   }
 
   function removeFavoriteBook(): void {
-    const filteredBooksArr = favoriteBooksArr.filter(
-      (book: IBook): boolean => book.id !== id
-    );
-
-    if (usersIdArr.length > 1) {
-      const filteredUsersIdArr = usersIdArr.filter((id) => id !== userId);
-      const updatedFavoriteBook = {
-        ...book,
-        usersId: filteredUsersIdArr,
-      };
-      dispatch(addBooksArray([updatedFavoriteBook, ...filteredBooksArr]));
-      save("favoriteBooks", [updatedFavoriteBook, ...filteredBooksArr]);
-    } else {
-      dispatch(addBooksArray(filteredBooksArr));
-      save("favoriteBooks", filteredBooksArr);
-    }
+    dispatch(removeBook({ removedBook: book, currentUserId: userId }));
   }
 
   return (

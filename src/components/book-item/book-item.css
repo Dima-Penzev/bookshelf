@@ -1,6 +1,7 @@
 .book {
   border-radius: 5px;
-  background-color: rgb(234, 243, 240);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
   box-sizing: border-box;
   min-height: 100%;
   padding: 20px;

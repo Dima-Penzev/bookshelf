@@ -11,6 +11,7 @@ import SearchPage from "../../pages/search-page/search-page";
 import ProtectedRouteElement from "../protected-route/protected-route";
 import { FavoritesPage } from "../../pages/favorites-page/favorites-page";
 import { Notification } from "../notification/notification";
+import { HistoryPage } from "../../pages/history-page/history-page";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export default function Main() {
             path="/history"
             element={
               <ProtectedRouteElement
-                element={<h2>history</h2>}
+                element={<HistoryPage />}
                 loggedIn={loggedIn}
               />
             }

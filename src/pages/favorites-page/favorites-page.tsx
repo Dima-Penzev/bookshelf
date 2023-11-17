@@ -1,5 +1,5 @@
 import BookItem from "../../components/book-item/book-item";
-import BooksList from "../../components/booksList/books-list";
+import BooksList from "../../components/books-list/books-list";
 import { useAppSelector } from "../../hooks/redux-hooks";
 
 export function FavoritesPage() {

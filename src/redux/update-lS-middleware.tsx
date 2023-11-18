@@ -12,5 +12,6 @@ export const updateLsMiddleware: Middleware = (store) => (next) => (action) => {
   ) {
     save("favoriteBooks", favoriteBooksArr);
   }
+
   return result;
 };

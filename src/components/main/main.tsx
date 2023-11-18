@@ -12,6 +12,7 @@ import ProtectedRouteElement from "../protected-route/protected-route";
 import { FavoritesPage } from "../../pages/favorites-page/favorites-page";
 import { Notification } from "../notification/notification";
 import { HistoryPage } from "../../pages/history-page/history-page";
+import { BookPage } from "../../pages/book-page/book-page";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function Main() {
           <Route path="/signup" element={<Register />} />
           <Route path="/signin" element={<Login />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/:bookId" element={<BookPage />} />
           <Route path="/search/:bookName" element={<SearchPage />} />
           <Route
             path="/favorites"

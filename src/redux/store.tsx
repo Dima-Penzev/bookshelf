@@ -3,8 +3,10 @@ import { applyLocalStorage } from "../hooks/use-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
 import { favoriteBooksReducer } from "./favorite-books-slice";
+import { searchHistoryReducer } from "./search-history-slice";
 import { updateLsMiddleware } from "./update-lS-middleware";
 import { booksApi } from "./books-api";
+import { updateSearchHistoryMiddleware } from "./update-search-history-middleware";
 const { load } = applyLocalStorage();
 
 const rootReducers = combineReducers({
@@ -12,6 +14,7 @@ const rootReducers = combineReducers({
   currentUser: userLoginReducer,
   [booksApi.reducerPath]: booksApi.reducer,
   favoriteBooks: favoriteBooksReducer,
+  searchHistory: searchHistoryReducer,
 });
 
 const preloadedState = {
@@ -27,6 +30,7 @@ const preloadedState = {
     loggedIn: load("currentUser")?.loggedIn || false,
   },
   favoriteBooks: { value: load("favoriteBooks") ?? [] },
+  searchHistory: { value: load("searchHistory") ?? [] },
 };
 
 export const store = configureStore({
@@ -35,7 +39,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(booksApi.middleware)
-      .concat(updateLsMiddleware),
+      .concat(updateLsMiddleware)
+      .concat(updateSearchHistoryMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./search-form.css";
+import { addLink } from "../../redux/search-history-slice";
+import { useAppDispatch } from "../../hooks/redux-hooks";
 
 export default function SearchForm() {
+  const dispatch = useAppDispatch();
   const [formBook, setFormBook] = useState("");
   const navigate = useNavigate();
 
@@ -21,6 +24,7 @@ export default function SearchForm() {
     }
 
     const normalizedValue = formBook.toLowerCase().trim();
+    dispatch(addLink({ bookName: normalizedValue }));
     navigate(`/search/${normalizedValue}`, { replace: true });
   };
 

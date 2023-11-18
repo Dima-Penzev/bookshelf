@@ -19,6 +19,8 @@ export interface IResponseBook {
     imageLinks: {
       thumbnail: string | undefined;
     };
+    publishedDate?: string;
+    description?: string;
   };
 }
 

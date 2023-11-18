@@ -1,3 +1,4 @@
+import "./favorites-page.css";
 import BookItem from "../../components/book-item/book-item";
 import BooksList from "../../components/books-list/books-list";
 import { useAppSelector } from "../../hooks/redux-hooks";
@@ -24,6 +25,6 @@ export function FavoritesPage() {
       ))}
     </BooksList>
   ) : (
-    <h2>У вас нет сохраненных книг</h2>
+    <p className="favorites-text">У вас нет сохраненных книг</p>
   );
 }

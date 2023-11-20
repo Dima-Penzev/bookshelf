@@ -36,7 +36,7 @@ function BookItem(book: IBook): JSX.Element {
   return (
     <li className="book">
       <div className="book__links-container">
-        <Link className="book__link" to={`/${id}`}>
+        <Link className="book__link" to={`/${id}`} state={{ from: location }}>
           Подробнее
         </Link>
         {usersIdArr.includes(userId) && location.pathname !== "/favorites" && (

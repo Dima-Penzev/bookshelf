@@ -14,12 +14,12 @@ plugins:
   - react
   - import
 rules: {
-# "no-console": ["error", { allow: ["warn", "error"] }],
+"no-console": ["error", { allow: ["warn", "error"] }],
 "no-unused-expressions": "error",
 "curly": "error",
 "react/jsx-uses-react": 0,
 "react/react-in-jsx-scope": 0,
-# "import/prefer-default-export": "off",
+"import/prefer-default-export": "off",
 "import/order": [
   "error",
   {

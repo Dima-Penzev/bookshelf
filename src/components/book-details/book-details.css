@@ -1,7 +1,6 @@
 .article__cover-container {
   padding-top: 40px;
   padding-bottom: 40px;
-  /* background-color: rgb(238, 237, 237); */
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
 }

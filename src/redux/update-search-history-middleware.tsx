@@ -1,24 +1,39 @@
 import { Middleware } from "redux";
 import { nanoid } from "nanoid";
 import { applyLocalStorage } from "../hooks/use-local-storage";
+import { IFormUserValues } from "../types/types";
 const { save } = applyLocalStorage();
 
 export const updateSearchHistoryMiddleware: Middleware =
   (store) => (next) => (action) => {
-    const userId = store.getState().currentUser.user?.id;
+    if (action.type === "currentUser/addLink") {
+      action.payload = { ...action.payload, id: nanoid() };
+    }
 
-    if (action.type === "searchHistory/addLink") {
-      action.payload = { ...action.payload, userId, id: nanoid() };
+    if (action.type === "currentUser/addBook") {
+      action.payload = { ...action.payload, id: nanoid() };
     }
 
     if (
-      action.type === "searchHistory/addLink" ||
-      action.type === "searchHistory/removeLink" ||
-      action.type === "searchHistory/cleanHistory"
+      action.type === "currentUser/addLink" ||
+      action.type === "currentUser/removeLink" ||
+      action.type === "currentUser/cleanHistory" ||
+      action.type === "currentUser/addBook" ||
+      action.type === "currentUser/removeBook"
     ) {
       const result = next(action);
-      const updatedSearchHistory = store.getState().searchHistory.value;
-      save("searchHistory", updatedSearchHistory);
+
+      const updatedCurrentUser = store.getState().currentUser;
+      const registeredUsersArr = store.getState().users.users;
+
+      const filteredUsersArr = registeredUsersArr.filter(
+        (user: IFormUserValues) => user.id !== updatedCurrentUser.user.id
+      );
+      const updatedUsersArr = [updatedCurrentUser.user, ...filteredUsersArr];
+
+      save("currentUser", updatedCurrentUser);
+      save("users", updatedUsersArr);
+
       return result;
     }
 

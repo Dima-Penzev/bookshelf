@@ -13,47 +13,50 @@ import { FavoritesPage } from "../../pages/favorites-page/favorites-page";
 import { Notification } from "../notification/notification";
 import { HistoryPage } from "../../pages/history-page/history-page";
 import { BookPage } from "../../pages/book-page/book-page";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function Main() {
   const navigate = useNavigate();
-  const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
+  const { user, loggedIn } = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
     navigate("/", { replace: true });
   }, [loggedIn]);
 
   return (
-    <div className="main">
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/signup" element={<Register />} />
-          <Route path="/signin" element={<Login />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/:bookId" element={<BookPage />} />
-          <Route path="/search/:bookName" element={<SearchPage />} />
-          <Route
-            path="/favorites"
-            element={
-              <ProtectedRouteElement
-                element={<FavoritesPage />}
-                loggedIn={loggedIn}
-              />
-            }
-          />
-          <Route
-            path="/history"
-            element={
-              <ProtectedRouteElement
-                element={<HistoryPage />}
-                loggedIn={loggedIn}
-              />
-            }
-          />
-        </Routes>
-        <Notification />
-      </main>
-      <Footer />
-    </div>
+    <CurrentUserContext.Provider value={user}>
+      <div className="main">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/signup" element={<Register />} />
+            <Route path="/signin" element={<Login />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/:bookId" element={<BookPage />} />
+            <Route path="/search/:bookName" element={<SearchPage />} />
+            <Route
+              path="/favorites"
+              element={
+                <ProtectedRouteElement
+                  element={<FavoritesPage />}
+                  loggedIn={loggedIn}
+                />
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <ProtectedRouteElement
+                  element={<HistoryPage />}
+                  loggedIn={loggedIn}
+                />
+              }
+            />
+          </Routes>
+          <Notification />
+        </main>
+        <Footer />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }

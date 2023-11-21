@@ -10,7 +10,7 @@ export default function HomePage() {
 
   return (
     <>
-      <SearchForm />
+      <SearchForm isLoading={isLoading} />
       {data && (
         <BooksList>
           {data &&

@@ -12,7 +12,7 @@ export default function SearchPage() {
 
   return (
     <>
-      <SearchForm />
+      <SearchForm isLoading={isLoading} />
       {data && (
         <BooksList>
           {data &&

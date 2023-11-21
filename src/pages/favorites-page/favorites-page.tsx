@@ -4,17 +4,13 @@ import BooksList from "../../components/books-list/books-list";
 import { useAppSelector } from "../../hooks/redux-hooks";
 
 export function FavoritesPage() {
-  const favoriteBooksArr = useAppSelector((state) => state.favoriteBooks.value);
-  const currentUserId =
-    useAppSelector((state) => state.currentUser.user?.id) ?? "";
-
-  const favoriteBooksOfUser = favoriteBooksArr.filter(({ usersId }) =>
-    usersId?.includes(currentUserId)
+  const favoriteBooksArr = useAppSelector(
+    (state) => state.currentUser.user?.favoriteBooks
   );
 
-  return favoriteBooksOfUser.length > 0 ? (
+  return [].length > 0 ? (
     <BooksList>
-      {favoriteBooksOfUser.map((book) => (
+      {/* {[].map((book) => (
         <BookItem
           key={book.id}
           id={book.id}
@@ -22,7 +18,7 @@ export function FavoritesPage() {
           cover={book.cover}
           authors={book.authors}
         />
-      ))}
+      ))} */}
     </BooksList>
   ) : (
     <p className="favorites-text">У вас нет сохраненных книг</p>

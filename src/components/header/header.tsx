@@ -2,13 +2,14 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logoutUser } from "../../redux/operations";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useUser } from "../../contexts/CurrentUserContext";
 import logoBook from "../../images/logo-book.png";
 import "./header.css";
 
 export default function Header() {
   const { pathname } = useLocation();
   const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
-  const userEmail = useAppSelector((state) => state.currentUser.user?.email);
+  const currentUser = useUser();
   const dispatch = useAppDispatch();
 
   function handleSignOut() {
@@ -21,7 +22,7 @@ export default function Header() {
       <Link className="header__logo" to="/">
         <img src={logoBook} alt="логотип" height={40} />
       </Link>
-      {loggedIn && <p>{userEmail}</p>}
+      {loggedIn && <p>{currentUser.email}</p>}
       <nav className="header__nav">
         <NavLink
           className={({ isActive }) =>

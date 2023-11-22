@@ -3,17 +3,12 @@ export interface IRequest {
   id?: string;
 }
 
-export interface IBookId {
-  bookId: string;
-  id?: string;
-}
-
 export interface IFormUserValues {
   email?: string;
   password?: string;
   id?: string;
   searchHistory?: IRequest[];
-  favoriteBooks?: IBookId[];
+  favoriteBooks?: string[];
 }
 
 export interface ILoggedInUser {

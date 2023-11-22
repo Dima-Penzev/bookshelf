@@ -10,10 +10,6 @@ export const updateSearchHistoryMiddleware: Middleware =
       action.payload = { ...action.payload, id: nanoid() };
     }
 
-    if (action.type === "currentUser/addBook") {
-      action.payload = { ...action.payload, id: nanoid() };
-    }
-
     if (
       action.type === "currentUser/addLink" ||
       action.type === "currentUser/removeLink" ||

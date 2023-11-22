@@ -65,7 +65,7 @@ const userLoginSlice = createSlice({
         searchHistory: [],
       };
     },
-    addBook: (state, { payload }: PayloadAction<{ bookId: string }>) => {
+    addBook: (state, { payload }: PayloadAction<string>) => {
       state.user = {
         ...state.user,
         favoriteBooks: state.user?.favoriteBooks
@@ -78,7 +78,7 @@ const userLoginSlice = createSlice({
         ...state.user,
         favoriteBooks:
           state.user?.favoriteBooks &&
-          state.user.favoriteBooks.filter((book) => book.id !== payload),
+          state.user.favoriteBooks.filter((book) => book !== payload),
       };
     },
   },

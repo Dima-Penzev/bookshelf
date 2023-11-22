@@ -15,11 +15,11 @@ function BookItem(book: IBook) {
   const userLoggedIn = useAppSelector((state) => state.currentUser.loggedIn);
   const dispatch = useAppDispatch();
 
-  const isBookFavorite = favoriteBooksArr?.some(({ bookId }) => bookId === id);
+  const isBookFavorite = favoriteBooksArr?.some((bookId) => bookId === id);
 
   function addFavoriteBook() {
     if (userLoggedIn) {
-      dispatch(addBook({ bookId: id }));
+      dispatch(addBook(id));
     } else {
       toast.info("Необходимо войти или зарегистрироваться");
       return;

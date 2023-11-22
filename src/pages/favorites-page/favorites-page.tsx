@@ -1,9 +1,9 @@
 import "./favorites-page.css";
-import BooksList from "../../components/books-list/books-list";
+import { BooksList } from "../../components/books-list/books-list";
 import { useAppSelector } from "../../hooks/redux-hooks";
 import { FavoriteItem } from "../../components/favorite-item/favorite-item";
 
-export function FavoritesPage() {
+export default function FavoritesPage() {
   const favoriteBooksArr =
     useAppSelector((state) => state.currentUser.user?.favoriteBooks) ?? [];
 

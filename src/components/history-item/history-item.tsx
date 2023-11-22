@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ButtonDelete } from "../button-delete/button-delete";
 import "./history-item.css";
+import { ButtonDelete } from "../button-delete/button-delete";
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { removeLink } from "../../redux/user-login-slice";
 

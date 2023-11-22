@@ -5,7 +5,7 @@ import { HistoryList } from "../../components/history-list/history-list";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { cleanHistory } from "../../redux/user-login-slice";
 
-export function HistoryPage() {
+export default function HistoryPage() {
   const historyLinksArr =
     useAppSelector((state) => state.currentUser.user?.searchHistory) ?? [];
   const dispatch = useAppDispatch();

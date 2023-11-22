@@ -1,12 +1,12 @@
-import "./book-item.css";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IBook } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { addBook, removeBook } from "../../redux/user-login-slice";
 import defaultPoster from "../../images/opened-book.jpg";
+import "./book-item.css";
 
-function BookItem(book: IBook) {
+export function BookItem(book: IBook) {
   const { id, cover, title, authors } = book;
   const location = useLocation();
   const favoriteBooksArr = useAppSelector(
@@ -66,5 +66,3 @@ function BookItem(book: IBook) {
     </li>
   );
 }
-
-export default BookItem;

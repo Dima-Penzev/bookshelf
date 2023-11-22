@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./search-form.css";
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { addLink } from "../../redux/user-login-slice";
+import "./search-form.css";
 
 type Props = {
   isLoading: boolean;
 };
 
-export default function SearchForm({ isLoading }: Props) {
+export function SearchForm({ isLoading }: Props) {
   const dispatch = useAppDispatch();
   const [formBook, setFormBook] = useState("");
   const navigate = useNavigate();

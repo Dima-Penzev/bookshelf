@@ -1,10 +1,10 @@
 import { Middleware } from "redux";
 import { nanoid } from "nanoid";
-import { applyLocalStorage } from "../hooks/use-local-storage";
+import { applyLocalStorage } from "../hooks/apply-local-storage";
 import { IFormUserValues } from "../types/types";
 const { save } = applyLocalStorage();
 
-export const updateSearchHistoryMiddleware: Middleware =
+export const updateLocalStorageMiddleware: Middleware =
   (store) => (next) => (action) => {
     if (action.type === "currentUser/addLink") {
       action.payload = { ...action.payload, id: nanoid() };

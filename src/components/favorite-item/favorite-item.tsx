@@ -1,6 +1,6 @@
 import "./favorite-item.css";
 import { useGetBooksDetailsQuery } from "../../redux/books-api";
-import BookItem from "../book-item/book-item";
+import { BookItem } from "../book-item/book-item";
 import { Loader } from "../loader/loader";
 import { Error } from "../error/error";
 

@@ -1,10 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { applyLocalStorage } from "../hooks/use-local-storage";
+import { applyLocalStorage } from "../hooks/apply-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
-// import { updateLsMiddleware } from "./update-lS-middleware";
 import { booksApi } from "./books-api";
-import { updateSearchHistoryMiddleware } from "./update-search-history-middleware";
+import { updateLocalStorageMiddleware } from "./update-local-storage-middleware";
 const { load } = applyLocalStorage();
 
 const rootReducers = combineReducers({
@@ -33,8 +32,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(booksApi.middleware)
-      // .concat(updateLsMiddleware)
-      .concat(updateSearchHistoryMiddleware),
+      .concat(updateLocalStorageMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

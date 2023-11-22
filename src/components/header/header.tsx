@@ -6,7 +6,7 @@ import { useUser } from "../../contexts/CurrentUserContext";
 import logoBook from "../../images/logo-book.png";
 import "./header.css";
 
-export default function Header() {
+export function Header() {
   const { pathname } = useLocation();
   const loggedIn = useAppSelector((state) => state.currentUser.loggedIn);
   const currentUser = useUser();

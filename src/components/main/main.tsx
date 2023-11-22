@@ -1,5 +1,5 @@
-import { useEffect, lazy, Suspense } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./main.css";
 import { Header } from "../header/header";
 import { Footer } from "../footer/footer";
@@ -8,6 +8,7 @@ import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { Notification } from "../notification/notification";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { Loader } from "../loader/loader";
+import { ErrorBoundary } from "../error-boundary/error-boundary";
 
 const Register = lazy(
   () =>
@@ -50,12 +51,7 @@ const HistoryPage = lazy(
 );
 
 export default function Main() {
-  const navigate = useNavigate();
   const { user, loggedIn } = useAppSelector((state) => state.currentUser);
-
-  useEffect(() => {
-    navigate("/", { replace: true });
-  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={user}>
@@ -67,7 +63,14 @@ export default function Main() {
               <Route path="/signup" element={<Register />} />
               <Route path="/signin" element={<Login />} />
               <Route path="/" element={<HomePage />} />
-              <Route path="/:bookId" element={<BookPage />} />
+              <Route
+                path="/:bookId"
+                element={
+                  <ErrorBoundary>
+                    <BookPage />
+                  </ErrorBoundary>
+                }
+              />
               <Route path="/search/:bookName" element={<SearchPage />} />
               <Route
                 path="/favorites"

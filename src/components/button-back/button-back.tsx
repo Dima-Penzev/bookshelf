@@ -5,7 +5,7 @@ export function ButtonBack() {
   const location = useLocation();
 
   return (
-    <Link className="button-back" to={location.state.from.pathname}>
+    <Link className="button-back" to={location?.state?.from?.pathname ?? "/"}>
       &#8656; Назад
     </Link>
   );

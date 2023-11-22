@@ -1,11 +1,18 @@
-export interface IFormUserValues {
-  email: string;
-  password: string;
+export interface IRequest {
+  bookName: string;
   id?: string;
 }
 
+export interface IFormUserValues {
+  email?: string;
+  password?: string;
+  id?: string;
+  searchHistory?: IRequest[];
+  favoriteBooks?: string[];
+}
+
 export interface ILoggedInUser {
-  user: IFormUserValues | null | undefined;
+  user: IFormUserValues | null;
   error: string | null | undefined;
   isLoading: boolean;
   loggedIn: boolean;
@@ -19,6 +26,8 @@ export interface IResponseBook {
     imageLinks: {
       thumbnail: string | undefined;
     };
+    publishedDate?: string;
+    description?: string;
   };
 }
 

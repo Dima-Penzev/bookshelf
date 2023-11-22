@@ -1,29 +1,19 @@
-import BookItem from "../../components/book-item/book-item";
-import BooksList from "../../components/booksList/books-list";
+import "./favorites-page.css";
+import { BooksList } from "../../components/books-list/books-list";
 import { useAppSelector } from "../../hooks/redux-hooks";
+import { FavoriteItem } from "../../components/favorite-item/favorite-item";
 
-export function FavoritesPage() {
-  const favoriteBooksArr = useAppSelector((state) => state.favoriteBooks.value);
-  const currentUserId =
-    useAppSelector((state) => state.currentUser.user?.id) ?? "";
+export default function FavoritesPage() {
+  const favoriteBooksArr =
+    useAppSelector((state) => state.currentUser.user?.favoriteBooks) ?? [];
 
-  const favoriteBooksOfUser = favoriteBooksArr.filter(({ usersId }) =>
-    usersId?.includes(currentUserId)
-  );
-
-  return favoriteBooksOfUser.length > 0 ? (
+  return favoriteBooksArr.length > 0 ? (
     <BooksList>
-      {favoriteBooksOfUser.map((book) => (
-        <BookItem
-          key={book.id}
-          id={book.id}
-          title={book.title}
-          cover={book.cover}
-          authors={book.authors}
-        />
+      {favoriteBooksArr.map((bookId) => (
+        <FavoriteItem key={bookId} bookId={bookId} />
       ))}
     </BooksList>
   ) : (
-    <h2>У вас нет сохраненных книг</h2>
+    <p className="favorites-text">У вас нет сохраненных книг</p>
   );
 }

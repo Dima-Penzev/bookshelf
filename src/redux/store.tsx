@@ -1,16 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { applyLocalStorage } from "../hooks/use-local-storage";
+import { applyLocalStorage } from "../hooks/apply-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
-import { favoriteBooksReducer } from "./favorite-books-slice";
 import { booksApi } from "./books-api";
+import { updateLocalStorageMiddleware } from "./update-local-storage-middleware";
 const { load } = applyLocalStorage();
 
 const rootReducers = combineReducers({
   users: userRegisterReducer,
   currentUser: userLoginReducer,
   [booksApi.reducerPath]: booksApi.reducer,
-  favoriteBooks: favoriteBooksReducer,
 });
 
 const preloadedState = {
@@ -25,14 +24,15 @@ const preloadedState = {
     isLoading: false,
     loggedIn: load("currentUser")?.loggedIn || false,
   },
-  favoriteBooks: { value: load("favoriteBooks") ?? [] },
 };
 
 export const store = configureStore({
   reducer: rootReducers,
   preloadedState,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(booksApi.middleware),
+    getDefaultMiddleware()
+      .concat(booksApi.middleware)
+      .concat(updateLocalStorageMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

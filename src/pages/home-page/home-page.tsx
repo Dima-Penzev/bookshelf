@@ -1,8 +1,8 @@
-import BookItem from "../../components/book-item/book-item";
-import BooksList from "../../components/booksList/books-list";
+import { BookItem } from "../../components/book-item/book-item";
+import { BooksList } from "../../components/books-list/books-list";
 import { Error } from "../../components/error/error";
 import { Loader } from "../../components/loader/loader";
-import SearchForm from "../../components/search-form/search-form";
+import { SearchForm } from "../../components/search-form/search-form";
 import { useGetBooksQuery } from "../../redux/books-api";
 
 export default function HomePage() {
@@ -10,7 +10,7 @@ export default function HomePage() {
 
   return (
     <>
-      <SearchForm />
+      <SearchForm isLoading={isLoading} />
       {data && (
         <BooksList>
           {data &&

@@ -1,85 +1,45 @@
-import "./book-item.css";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IBook } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { addBooksArray } from "../../redux/favorite-books-slice";
-import { applyLocalStorage } from "../../hooks/use-local-storage";
+import { addBook, removeBook } from "../../redux/user-login-slice";
 import defaultPoster from "../../images/opened-book.jpg";
-const { save } = applyLocalStorage();
+import "./book-item.css";
 
-function BookItem(book: IBook): JSX.Element {
+export function BookItem(book: IBook) {
   const { id, cover, title, authors } = book;
   const location = useLocation();
-  const favoriteBooksArr = useAppSelector((state) => state.favoriteBooks.value);
+  const favoriteBooksArr = useAppSelector(
+    (state) => state.currentUser.user?.favoriteBooks
+  );
   const userLoggedIn = useAppSelector((state) => state.currentUser.loggedIn);
-  const userId = useAppSelector((state) => state.currentUser.user?.id);
   const dispatch = useAppDispatch();
 
-  const favoriteBook = favoriteBooksArr.find(
-    (book: IBook): boolean => book.id === id
-  );
+  const isBookFavorite = favoriteBooksArr?.some((bookId) => bookId === id);
 
-  const usersIdArr = favoriteBook?.usersId ?? [];
-
-  function addFavoriteBook(): void {
+  function addFavoriteBook() {
     if (userLoggedIn) {
-      const updatedFavoriteBook = {
-        ...book,
-        usersId: [userId, ...usersIdArr],
-      };
-
-      if (!favoriteBook) {
-        dispatch(addBooksArray([updatedFavoriteBook, ...favoriteBooksArr]));
-        save("favoriteBooks", [updatedFavoriteBook, ...favoriteBooksArr]);
-      } else {
-        const filteredFavoriteBooksArr = favoriteBooksArr.filter(
-          (book) => book.id !== id
-        );
-
-        dispatch(
-          addBooksArray([updatedFavoriteBook, ...filteredFavoriteBooksArr])
-        );
-        save("favoriteBooks", [
-          updatedFavoriteBook,
-          ...filteredFavoriteBooksArr,
-        ]);
-      }
+      dispatch(addBook(id));
     } else {
       toast.info("Необходимо войти или зарегистрироваться");
       return;
     }
   }
 
-  function removeFavoriteBook(): void {
-    const filteredBooksArr = favoriteBooksArr.filter(
-      (book: IBook): boolean => book.id !== id
-    );
-
-    if (usersIdArr.length > 1) {
-      const filteredUsersIdArr = usersIdArr.filter((id) => id !== userId);
-      const updatedFavoriteBook = {
-        ...book,
-        usersId: filteredUsersIdArr,
-      };
-      dispatch(addBooksArray([updatedFavoriteBook, ...filteredBooksArr]));
-      save("favoriteBooks", [updatedFavoriteBook, ...filteredBooksArr]);
-    } else {
-      dispatch(addBooksArray(filteredBooksArr));
-      save("favoriteBooks", filteredBooksArr);
-    }
+  function removeFavoriteBook() {
+    dispatch(removeBook(id));
   }
 
   return (
     <li className="book">
       <div className="book__links-container">
-        <Link className="book__link" to={`/${id}`}>
+        <Link className="book__link" to={`/${id}`} state={{ from: location }}>
           Подробнее
         </Link>
-        {usersIdArr.includes(userId) && location.pathname !== "/favorites" && (
+        {isBookFavorite && location.pathname !== "/favorites" && (
           <p className="book__favorite">В избранном</p>
         )}
-        {!usersIdArr.includes(userId) && location.pathname !== "/favorites" && (
+        {!isBookFavorite && location.pathname !== "/favorites" && (
           <button
             type="button"
             className="book__link"
@@ -106,5 +66,3 @@ function BookItem(book: IBook): JSX.Element {
     </li>
   );
 }
-
-export default BookItem;

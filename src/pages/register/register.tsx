@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import "./register.css";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { loginUser, registerUser } from "../../redux/operations";
-import "./register.css";
 
 export default function Register() {
   const {

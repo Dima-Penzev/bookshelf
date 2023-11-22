@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "../../hooks/redux-hooks";
+import { addLink } from "../../redux/user-login-slice";
 import "./search-form.css";
 
-export default function SearchForm() {
+type Props = {
+  isLoading: boolean;
+};
+
+export function SearchForm({ isLoading }: Props) {
+  const dispatch = useAppDispatch();
   const [formBook, setFormBook] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setFormBook(value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (formBook === "") {
@@ -21,6 +28,7 @@ export default function SearchForm() {
     }
 
     const normalizedValue = formBook.toLowerCase().trim();
+    dispatch(addLink({ bookName: normalizedValue }));
     navigate(`/search/${normalizedValue}`, { replace: true });
   };
 
@@ -36,9 +44,9 @@ export default function SearchForm() {
           onChange={handleChange}
         />
         <button
-          disabled={status === "pending"}
+          disabled={isLoading}
           className={`search-form__button ${
-            status === "pending" && "search-form__button-disabled"
+            isLoading && "search-form__button-disabled"
           }`}
           type="submit"
         >

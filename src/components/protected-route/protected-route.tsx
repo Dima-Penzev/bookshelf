@@ -5,8 +5,9 @@ type Props = {
   loggedIn: boolean;
 };
 
-const ProtectedRouteElement = ({ element: Component, loggedIn }: Props) => {
+export const ProtectedRouteElement = ({
+  element: Component,
+  loggedIn,
+}: Props) => {
   return loggedIn ? Component : <Navigate to="/signin" replace />;
 };
-
-export default ProtectedRouteElement;

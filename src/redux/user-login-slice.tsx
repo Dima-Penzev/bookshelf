@@ -42,7 +42,46 @@ const initialState: ILoggedInUser = {
 const userLoginSlice = createSlice({
   name: "currentUser",
   initialState,
-  reducers: {},
+  reducers: {
+    addLink: (state, { payload }: PayloadAction<{ bookName: string }>) => {
+      state.user = {
+        ...state.user,
+        searchHistory: state.user?.searchHistory
+          ? [payload, ...state.user.searchHistory]
+          : [payload],
+      };
+    },
+    removeLink: (state, { payload }: PayloadAction<string | undefined>) => {
+      state.user = {
+        ...state.user,
+        searchHistory:
+          state.user?.searchHistory &&
+          state.user.searchHistory.filter((link) => link.id !== payload),
+      };
+    },
+    cleanHistory: (state) => {
+      state.user = {
+        ...state.user,
+        searchHistory: [],
+      };
+    },
+    addBook: (state, { payload }: PayloadAction<string>) => {
+      state.user = {
+        ...state.user,
+        favoriteBooks: state.user?.favoriteBooks
+          ? [payload, ...state.user.favoriteBooks]
+          : [payload],
+      };
+    },
+    removeBook: (state, { payload }: PayloadAction<string | undefined>) => {
+      state.user = {
+        ...state.user,
+        favoriteBooks:
+          state.user?.favoriteBooks &&
+          state.user.favoriteBooks.filter((book) => book !== payload),
+      };
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(loginUser.pending, handlePending)
@@ -52,5 +91,8 @@ const userLoginSlice = createSlice({
       .addCase(logoutUser.fulfilled, handleLogoutUserFulfilled)
       .addCase(logoutUser.rejected, handleRejected),
 });
+
+export const { addLink, removeLink, cleanHistory, addBook, removeBook } =
+  userLoginSlice.actions;
 
 export const userLoginReducer = userLoginSlice.reducer;

@@ -19,7 +19,7 @@ export default function HomePage() {
                 key={book.id}
                 id={book.id}
                 title={book.title}
-                cover={book.imageLink}
+                imageLink={book.imageLink}
                 authors={book.authors}
               />
             ))}

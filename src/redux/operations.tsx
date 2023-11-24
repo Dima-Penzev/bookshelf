@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IFormUserValues, ILoggedInUser } from "../types/types";
-import { applyLocalStorage } from "../hooks/apply-local-storage";
+import { applyLocalStorage } from "../utils/apply-local-storage";
 const { save, load } = applyLocalStorage();
 
 export const registerUser = createAsyncThunk<

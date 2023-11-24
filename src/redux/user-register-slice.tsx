@@ -3,8 +3,8 @@ import { IFormUserValues } from "../types/types";
 import { registerUser } from "./operations";
 
 interface IUsersState {
-  users: IFormUserValues[] | undefined;
-  error: string | null | undefined;
+  users: IFormUserValues[];
+  error?: string | null;
   isLoading: boolean;
 }
 

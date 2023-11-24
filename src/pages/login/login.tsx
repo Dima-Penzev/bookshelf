@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../../pages/register/register.css";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { loginUser } from "../../redux/operations";
+import { useUser } from "../../contexts/CurrentUserContext";
 
 export default function Login() {
   const {
@@ -12,13 +14,19 @@ export default function Login() {
     formState: { errors, isValid },
   } = useForm<IFormUserValues>({ mode: "onChange" });
   const errorMessage = useAppSelector((state) => state.currentUser.error);
+  const currentUser = useUser();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleFormSubmit = (userData: IFormUserValues) => {
     dispatch(loginUser(userData));
-    navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/", { replace: true });
+    }
+  }, [currentUser]);
 
   return (
     <div className="entry">

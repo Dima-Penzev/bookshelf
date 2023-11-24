@@ -7,7 +7,7 @@ import defaultPoster from "../../images/opened-book.jpg";
 import "./book-item.css";
 
 export function BookItem(book: IBook) {
-  const { id, cover, title, authors } = book;
+  const { id, imageLink, title, authors } = book;
   const location = useLocation();
   const favoriteBooksArr = useAppSelector(
     (state) => state.currentUser.user?.favoriteBooks
@@ -59,7 +59,11 @@ export function BookItem(book: IBook) {
         )}
       </div>
       <div className="book__thumb">
-        <img className="book__cover" src={cover || defaultPoster} alt={title} />
+        <img
+          className="book__cover"
+          src={imageLink || defaultPoster}
+          alt={title}
+        />
       </div>
       <h2 className="book__title">{title}</h2>
       <p className="book__author">{authors}</p>

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks/redux-hooks";
+import { useDebounce } from "../../hooks/useDebounce";
 import { addLink } from "../../redux/user-login-slice";
+import { booksApi } from "../../redux/books-api";
+import { SuggestedBooks } from "../suggested-books/suggested-books";
 import "./search-form.css";
 
 type Props = {
@@ -13,6 +16,16 @@ export function SearchForm({ isLoading }: Props) {
   const dispatch = useAppDispatch();
   const [formBook, setFormBook] = useState("");
   const navigate = useNavigate();
+  const debouncedSearchTerm = useDebounce(formBook, 500);
+  const [trigger, { data: books }] = booksApi.useLazyGetBooksQuery();
+  const isFormFilled =
+    debouncedSearchTerm !== undefined && debouncedSearchTerm !== "";
+
+  useEffect(() => {
+    if (isFormFilled) {
+      trigger(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
@@ -52,6 +65,11 @@ export function SearchForm({ isLoading }: Props) {
         >
           Поиск
         </button>
+        {isFormFilled && (
+          <ul className="search-form__suggested">
+            <SuggestedBooks books={books} />
+          </ul>
+        )}
       </div>
     </form>
   );

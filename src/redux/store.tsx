@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { applyLocalStorage } from "../hooks/apply-local-storage";
+import { applyLocalStorage } from "../utils/apply-local-storage";
 import { userRegisterReducer } from "./user-register-slice";
 import { userLoginReducer } from "./user-login-slice";
 import { booksApi } from "./books-api";

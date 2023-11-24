@@ -17,7 +17,7 @@ export function FavoriteItem({ bookId }: Props) {
         <BookItem
           id={data.id}
           title={data.title}
-          cover={data.imageLink}
+          imageLink={data.imageLink}
           authors={data.authors}
         />
       )}

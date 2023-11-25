@@ -17,13 +17,12 @@ export function SearchForm({ isLoading }: Props) {
   const [formBook, setFormBook] = useState("");
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(formBook, 500);
-  const [trigger, { data: books }] = booksApi.useLazyGetBooksQuery();
-  const isFormFilled =
-    debouncedSearchTerm !== undefined && debouncedSearchTerm !== "";
+  const [getSuggestedBooks, { data: books }] = booksApi.useLazyGetBooksQuery();
+  const isFormFilled = debouncedSearchTerm !== "";
 
   useEffect(() => {
     if (isFormFilled) {
-      trigger(debouncedSearchTerm);
+      getSuggestedBooks(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
 

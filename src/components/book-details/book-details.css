@@ -14,7 +14,7 @@
 }
 
 .article__text-container {
-  padding: 30px 15px;
+  padding: 0 15px 30px;
 }
 
 .article__category {
@@ -81,7 +81,7 @@
   }
 
   .article__text-container {
-    padding: 45px 30px;
+    padding: 0 30px 45px;
   }
 
   .article__title {

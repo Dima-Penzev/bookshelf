@@ -27,7 +27,7 @@ export const registerUser = createAsyncThunk<
 
   if (existedUser) {
     return thunkAPI.rejectWithValue(
-      `Пользователь с почтой - ${email} уже зарегистрирован.`
+      `Пользователь с почтой ${email} уже зарегистрирован.`
     );
   } else {
     try {

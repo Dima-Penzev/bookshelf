@@ -5,7 +5,7 @@ import "../../pages/register/register.css";
 import { IFormUserValues } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { loginUser } from "../../redux/operations";
-import { useUser } from "../../contexts/CurrentUserContext";
+import { useUser } from "../../contexts/current-user-context";
 
 export default function Login() {
   const {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks/redux-hooks";
-import { useDebounce } from "../../hooks/useDebounce";
+import { useDebounce } from "../../hooks/use-debounce";
 import { addLink } from "../../redux/user-login-slice";
 import { booksApi } from "../../redux/books-api";
 import { SuggestedBooks } from "../suggested-books/suggested-books";
@@ -18,11 +18,12 @@ export function SearchForm({ isLoading }: Props) {
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(formBook, 500);
   const [getSuggestedBooks, { data: books }] = booksApi.useLazyGetBooksQuery();
-  const isFormFilled = debouncedSearchTerm !== "";
+  const [showSuggests, setShowSuggests] = useState(false);
 
   useEffect(() => {
-    if (isFormFilled) {
+    if (debouncedSearchTerm !== "") {
       getSuggestedBooks(debouncedSearchTerm);
+      setShowSuggests(true);
     }
   }, [debouncedSearchTerm]);
 
@@ -42,6 +43,7 @@ export function SearchForm({ isLoading }: Props) {
     const normalizedValue = formBook.toLowerCase().trim();
     dispatch(addLink({ bookName: normalizedValue }));
     navigate(`/search/${normalizedValue}`, { replace: true });
+    setShowSuggests(false);
   };
 
   return (
@@ -64,7 +66,7 @@ export function SearchForm({ isLoading }: Props) {
         >
           Поиск
         </button>
-        {isFormFilled && (
+        {showSuggests && (
           <ul className="search-form__suggested">
             <SuggestedBooks books={books} />
           </ul>

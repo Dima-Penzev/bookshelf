@@ -6,7 +6,7 @@ import { Footer } from "../footer/footer";
 import { useAppSelector } from "../../hooks/redux-hooks";
 import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { Notification } from "../notification/notification";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/current-user-context";
 import { Loader } from "../loader/loader";
 import { ErrorBoundary } from "../error-boundary/error-boundary";
 

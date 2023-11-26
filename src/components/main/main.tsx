@@ -49,6 +49,12 @@ const HistoryPage = lazy(
       "../../pages/history-page/history-page" /* webpackChunkName: "history-page" */
     )
 );
+const UnknownPath = lazy(
+  () =>
+    import(
+      "../../pages/unknown-path/unknown-path" /* webpackChunkName: "unknown-path" */
+    )
+);
 
 export default function Main() {
   const { user, loggedIn } = useAppSelector((state) => state.currentUser);
@@ -90,6 +96,7 @@ export default function Main() {
                   />
                 }
               />
+              <Route path="/*" element={<UnknownPath />} />
             </Routes>
           </Suspense>
           <Notification />

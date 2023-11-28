@@ -12,7 +12,7 @@ export default function SearchPage() {
 
   return (
     <>
-      <SearchForm isLoading={isLoading} />
+      <SearchForm isLoading={isLoading} queryBook={bookName} />
       {data && (
         <BooksList>
           {data &&
@@ -21,7 +21,7 @@ export default function SearchPage() {
                 key={book.id}
                 id={book.id}
                 title={book.title}
-                cover={book.imageLink}
+                imageLink={book.imageLink}
                 authors={book.authors}
               />
             ))}

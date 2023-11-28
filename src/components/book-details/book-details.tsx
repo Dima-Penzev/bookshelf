@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./book-details.css";
 import defaultImage from "../../images/opened-book.jpg";
 
@@ -5,10 +6,10 @@ type Props = {
   book: {
     id: string;
     title: string;
-    authors: string[];
-    imageLink: string | undefined;
-    publishedDate: string | undefined;
-    description: string | undefined;
+    authors?: string[];
+    imageLink?: string;
+    publishedDate?: string;
+    description?: string;
   };
 };
 
@@ -26,7 +27,7 @@ export function BookDetails({ book }: Props) {
         </div>
         <div className="article__text-container">
           <h2 className="article__title">{title}</h2>
-          <p className="article__author">{authors}</p>
+          {authors && <p className="article__author">{authors}</p>}
           {description && <p className="article__text">{description}</p>}
           {publishedDate && (
             <p className="article__category">
@@ -38,3 +39,13 @@ export function BookDetails({ book }: Props) {
     </>
   );
 }
+
+BookDetails.propTypes = {
+  book: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    imageLink: PropTypes.string,
+    publishedDate: PropTypes.string,
+    description: PropTypes.string,
+  }),
+};

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./button-delete.css";
 
 type Props = {
@@ -12,3 +13,8 @@ export function ButtonDelete({ text, onDelete }: Props) {
     </button>
   );
 }
+
+ButtonDelete.protoTypes = {
+  text: PropTypes.string.isRequired,
+  onDelete: PropTypes.func,
+};

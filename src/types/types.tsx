@@ -13,7 +13,7 @@ export interface IFormUserValues {
 
 export interface ILoggedInUser {
   user: IFormUserValues | null;
-  error: string | null | undefined;
+  error?: string | null;
   isLoading: boolean;
   loggedIn: boolean;
 }
@@ -24,7 +24,7 @@ export interface IResponseBook {
     title: string;
     authors: string[];
     imageLinks: {
-      thumbnail: string | undefined;
+      thumbnail?: string;
     };
     publishedDate?: string;
     description?: string;
@@ -35,6 +35,6 @@ export interface IBook {
   id: string;
   title: string;
   authors: string[];
-  cover: string | undefined;
+  imageLink?: string;
   usersId?: (string | undefined)[];
 }

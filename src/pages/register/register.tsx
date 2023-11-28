@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./register.css";
 import { IFormUserValues } from "../../types/types";
@@ -13,11 +14,20 @@ export default function Register() {
   } = useForm<IFormUserValues>({ mode: "onChange" });
   const errorMessage = useAppSelector((state) => state.users.error);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<IFormUserValues | null>(null);
 
-  const handleFormSubmit = (userData: IFormUserValues) => {
-    dispatch(registerUser(userData));
-    dispatch(loginUser(userData));
+  const handleFormSubmit = async (userData: IFormUserValues) => {
+    await dispatch(registerUser(userData));
+    setUser(userData);
   };
+
+  useEffect(() => {
+    if (!errorMessage && user) {
+      dispatch(loginUser(user));
+      navigate("/", { replace: true });
+    }
+  }, [errorMessage, user]);
 
   return (
     <div className="entry">

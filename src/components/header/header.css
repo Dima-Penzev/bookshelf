@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: right;
+  flex-wrap: wrap;
   min-height: 70px;
   width: 100%;
   border-bottom: 1px solid #000;
@@ -19,6 +20,7 @@
   margin-left: 20px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .header__link {

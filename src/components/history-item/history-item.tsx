@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./history-item.css";
 import { ButtonDelete } from "../button-delete/button-delete";
 import { useAppDispatch } from "../../hooks/redux-hooks";
@@ -13,7 +14,7 @@ export function HistoryItem({ linkId, bookName }: Props) {
   const dispatch = useAppDispatch();
 
   function removeSearchLink() {
-    dispatch(removeLink(linkId));
+    dispatch(removeLink(linkId || ""));
   }
 
   return (
@@ -25,3 +26,8 @@ export function HistoryItem({ linkId, bookName }: Props) {
     </li>
   );
 }
+
+HistoryItem.propType = {
+  linkId: PropTypes.string.isRequired,
+  bookName: PropTypes.string.isRequired,
+};

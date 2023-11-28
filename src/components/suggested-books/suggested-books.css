@@ -1,0 +1,18 @@
+.suggested-books__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.suggested-books__link:hover {
+  background-color: #27ae60;
+  color: #fff;
+  cursor: pointer;
+}
+
+.suggested-books__title {
+  margin-left: 16px;
+}

@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
 import { nanoid } from "nanoid";
-import { applyLocalStorage } from "../hooks/apply-local-storage";
+import { applyLocalStorage } from "../utils/apply-local-storage";
 import { IFormUserValues } from "../types/types";
 const { save } = applyLocalStorage();
 

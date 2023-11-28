@@ -2,7 +2,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logoutUser } from "../../redux/operations";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { useUser } from "../../contexts/CurrentUserContext";
+import { useUser } from "../../contexts/current-user-context";
 import logoBook from "../../images/logo-book.png";
 import "./header.css";
 
@@ -22,7 +22,7 @@ export function Header() {
       <Link className="header__logo" to="/">
         <img src={logoBook} alt="логотип" height={40} />
       </Link>
-      {loggedIn && <p>{currentUser.email}</p>}
+      {loggedIn && <p>{currentUser?.email}</p>}
       <nav className="header__nav">
         <NavLink
           className={({ isActive }) =>

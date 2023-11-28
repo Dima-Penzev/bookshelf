@@ -30,7 +30,7 @@ export default function BookPage() {
     if (!isBookFavorite && data) {
       dispatch(addBook(data?.id));
     } else {
-      dispatch(removeBook(data?.id));
+      dispatch(removeBook(data?.id || ""));
     }
   }
 

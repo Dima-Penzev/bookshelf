@@ -51,7 +51,7 @@ const userLoginSlice = createSlice({
           : [payload],
       };
     },
-    removeLink: (state, { payload }: PayloadAction<string | undefined>) => {
+    removeLink: (state, { payload }: PayloadAction<string>) => {
       state.user = {
         ...state.user,
         searchHistory:
@@ -73,7 +73,7 @@ const userLoginSlice = createSlice({
           : [payload],
       };
     },
-    removeBook: (state, { payload }: PayloadAction<string | undefined>) => {
+    removeBook: (state, { payload }: PayloadAction<string>) => {
       state.user = {
         ...state.user,
         favoriteBooks:

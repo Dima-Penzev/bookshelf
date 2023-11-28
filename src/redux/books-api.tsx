@@ -12,10 +12,13 @@ export const booksApi = createApi({
   }),
   endpoints: (build) => ({
     getBooks: build.query({
-      query: (bookQuery) =>
-        `volumes?projection=lite&maxResults=20&q=${
-          bookQuery ? bookQuery : "%22%22"
-        }`,
+      query: (bookQuery) => ({
+        url: `volumes?q=${bookQuery ? bookQuery : "%22%22"}`,
+        params: {
+          projection: "lite",
+          maxResults: "20",
+        },
+      }),
       transformResponse: ({ items }: IResponse) =>
         items.map((book) => ({
           id: book.id,

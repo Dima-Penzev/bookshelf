@@ -14,7 +14,7 @@ export function HistoryItem({ linkId, bookName }: Props) {
   const dispatch = useAppDispatch();
 
   function removeSearchLink() {
-    dispatch(removeLink(linkId));
+    dispatch(removeLink(linkId || ""));
   }
 
   return (

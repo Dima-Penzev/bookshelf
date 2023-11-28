@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks/redux-hooks";
@@ -6,24 +6,29 @@ import { useDebounce } from "../../hooks/use-debounce";
 import { addLink } from "../../redux/user-login-slice";
 import { booksApi } from "../../redux/books-api";
 import { SuggestedBooks } from "../suggested-books/suggested-books";
+import { useUnfocus } from "../../hooks/use-unfocus";
 import "./search-form.css";
 
 type Props = {
   isLoading: boolean;
+  queryBook?: string;
 };
 
-export function SearchForm({ isLoading }: Props) {
+export function SearchForm({ isLoading, queryBook }: Props) {
   const dispatch = useAppDispatch();
-  const [formBook, setFormBook] = useState("");
+  const [formBook, setFormBook] = useState(queryBook ?? "");
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(formBook, 500);
   const [getSuggestedBooks, { data: books }] = booksApi.useLazyGetBooksQuery();
   const [showSuggests, setShowSuggests] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (debouncedSearchTerm !== "") {
+    if (debouncedSearchTerm !== "" && formBook !== queryBook) {
       getSuggestedBooks(debouncedSearchTerm);
       setShowSuggests(true);
+    } else {
+      setShowSuggests(false);
     }
   }, [debouncedSearchTerm]);
 
@@ -46,6 +51,16 @@ export function SearchForm({ isLoading }: Props) {
     setShowSuggests(false);
   };
 
+  const handleInputFocus = () => {
+    setShowSuggests(true);
+  };
+
+  const handleInputUnfocus = () => {
+    setShowSuggests(false);
+  };
+
+  useUnfocus(inputRef, handleInputUnfocus);
+
   return (
     <form className="search-form" onSubmit={handleSubmit}>
       <div className="search-form__container">
@@ -56,6 +71,8 @@ export function SearchForm({ isLoading }: Props) {
           name="book"
           value={formBook}
           onChange={handleChange}
+          onClick={handleInputFocus}
+          ref={inputRef}
         />
         <button
           disabled={isLoading}

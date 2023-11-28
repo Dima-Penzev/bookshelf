@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { useDebounce } from "../../hooks/use-debounce";
 import { addLink } from "../../redux/user-login-slice";
 import { booksApi } from "../../redux/books-api";
@@ -16,6 +16,7 @@ type Props = {
 
 export function SearchForm({ isLoading, queryBook }: Props) {
   const dispatch = useAppDispatch();
+  const userLoggedIn = useAppSelector((state) => state.currentUser.loggedIn);
   const [formBook, setFormBook] = useState(queryBook ?? "");
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(formBook, 500);
@@ -46,7 +47,11 @@ export function SearchForm({ isLoading, queryBook }: Props) {
     }
 
     const normalizedValue = formBook.toLowerCase().trim();
-    dispatch(addLink({ bookName: normalizedValue }));
+
+    if (userLoggedIn) {
+      dispatch(addLink({ bookName: normalizedValue }));
+    }
+
     navigate(`/search/${normalizedValue}`, { replace: true });
     setShowSuggests(false);
   };
